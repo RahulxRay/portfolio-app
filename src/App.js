@@ -14,10 +14,17 @@ function App() {
 
   // Column Definitions: Defines the columns to be displayed.
   const [colDefs, setColDefs] = useState([
-    { field: "make" },
-    { field: "model" },
-    { field: "price" },
-    { field: "electric" }
+    {
+      field: "make",
+      editable: true,
+      cellEditor: 'agSelectCellEditor',
+      cellEditorParams: {
+        values: ['Tesla', 'Ford', 'Toyota'],
+      },
+    },
+    { field: "model", filter: true, floatingFilter: true },
+    { field: "price", valueFormatter: p => '£' + p.value.toLocaleString() },
+    { field: "electric", editable: true }
   ]);
   return (
     <div
