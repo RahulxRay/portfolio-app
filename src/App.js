@@ -16,6 +16,12 @@ const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100vh" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [rowData, setRowData] = useState([]);
+  // Define default column definitions
+  const defaultColDef = useMemo(() => ({
+    editable: true,
+    filter: true,
+    resizable: true,
+  }), []);
   const [columnDefs] = useState([
     { field: "Stock Symbol", minWidth: 150 },
     { field: "Company Name", minWidth: 200 },
@@ -78,14 +84,14 @@ const GridExample = () => {
     { field: "Net_Profit_Jun2023", headerName: "Net Profit Jun 2023" },
     { field: "Net_Profit_Sep2023", headerName: "Net Profit Sep 2023" },
     { field: "Net_Profit_Dec2023", headerName: "Net Profit Dec 2023" },
-    { field: "EPS_in_Rs._Sep2021", headerName: "EPS in Rs. Sep 2021" },
-    { field: "EPS_in_Rs._Jun2022", headerName: "EPS in Rs. Jun 2022" },
-    { field: "EPS_in_Rs._Sep2022", headerName: "EPS in Rs. Sep 2022" },
-    { field: "EPS_in_Rs._Dec2022", headerName: "EPS in Rs. Dec 2022" },
-    { field: "EPS_in_Rs._Mar2023", headerName: "EPS in Rs. Mar 2023" },
-    { field: "EPS_in_Rs._Jun2023", headerName: "EPS in Rs. Jun 2023" },
-    { field: "EPS_in_Rs._Sep2023", headerName: "EPS in Rs. Sep 2023" },
-    { field: "EPS_in_Rs._Dec2023", headerName: "EPS in Rs. Dec 2023" },
+    { field: "EPS_in_Rs_Sep2021", headerName: "EPS in Rs. Sep 2021" },
+    { field: "EPS_in_Rs_Jun2022", headerName: "EPS in Rs. Jun 2022" },
+    { field: "EPS_in_Rs_Sep2022", headerName: "EPS in Rs. Sep 2022" },
+    { field: "EPS_in_Rs_Dec2022", headerName: "EPS in Rs. Dec 2022" },
+    { field: "EPS_in_Rs_Mar2023", headerName: "EPS in Rs. Mar 2023" },
+    { field: "EPS_in_Rs_Jun2023", headerName: "EPS in Rs. Jun 2023" },
+    { field: "EPS_in_Rs_Sep2023", headerName: "EPS in Rs. Sep 2023" },
+    { field: "EPS_in_Rs_Dec2023", headerName: "EPS in Rs. Dec 2023" },
   ]);
 
   useEffect(() => {
@@ -104,11 +110,13 @@ const GridExample = () => {
         <AgGridReact
           rowData={rowData}
           columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
         />
       </div>
     </div>
   );
 };
+
 
 // Export the GridExample component as the default export
 export default GridExample;
