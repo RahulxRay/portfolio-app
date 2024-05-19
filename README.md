@@ -1,70 +1,192 @@
-# Getting Started with Create React App
+Sure! Here is the `README.md` file for your project:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```markdown
+# Portfolio App
 
-## Available Scripts
+This is a portfolio app that displays data fetched from a MongoDB database using a Node.js backend and displays it using AG Grid in a React frontend.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Fetches data from MongoDB using a Node.js server
+- Displays data using AG Grid in a React frontend
+- Handles special characters in data field names
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js and npm installed
+- MongoDB database set up
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Clone the Repository
 
-### `npm run build`
+```sh
+git clone https://github.com/yourusername/portfolio-app.git
+cd portfolio-app
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Install Dependencies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Set Up Environment Variables
 
-### `npm run eject`
+Create a `.env` file in the root directory and add your MongoDB URI:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+MONGODB_URI=mongodb+srv://Ray:<password>@analysis.5ti03o2.mongodb.net/?retryWrites=true&w=majority&appName=analysis
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Replace `<password>` with your actual MongoDB password.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Run the Node.js Server
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```sh
+npm run server
+```
 
-## Learn More
+### Run the React Development Server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In a new terminal, run:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+npm start
+```
 
-### Code Splitting
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+portfolio-app/
+├── build/                  # Contains the build files after running `npm run build`
+├── node_modules/           # Contains npm dependencies
+├── public/                 # Contains public files
+│   ├── index.html          # Main HTML file
+│   └── ...
+├── src/                    # Contains source files
+│   ├── App.js              # Main React component
+│   ├── index.js            # React entry point
+│   ├── server.js           # Node.js server
+│   ├── styles.css          # Custom styles
+│   └── ...
+├── .env                    # Environment variables
+├── package.json            # Project metadata and npm scripts
+└── README.md               # Project documentation
+```
 
-### Analyzing the Bundle Size
+## API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### `GET /api/data`
 
-### Making a Progressive Web App
+Fetches data from the MongoDB database.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Usage
 
-### Advanced Configuration
+### Transforming Data
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The data fetched from the MongoDB database is transformed to replace dots in field names with underscores to avoid issues with special characters.
 
-### Deployment
+```javascript
+const transformData = (data) => {
+  return data.map(item => {
+    const newItem = {};
+    for (const key in item) {
+      const newKey = key.replace(/\./g, '_'); // Replace dots with underscores
+      newItem[newKey] = item[key];
+    }
+    return newItem;
+  });
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Column Definitions
 
-### `npm run build` fails to minify
+Ensure that the field names in the column definitions match the transformed field names.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```javascript
+const [columnDefs] = useState([
+  { field: "Stock_Symbol", minWidth: 150 },
+  { field: "Company_Name", minWidth: 200 },
+  { field: "Market_Cap" },
+  { field: "Stock_P_E", headerName: "Stock P/E" },
+  { field: "Pledged" },
+  { field: "ROCE" },
+  { field: "ROE" },
+  { field: "Down" },
+  { field: "UP" },
+  { field: "P_FII_DII", headerName: "P+FII+DII" },
+  { field: "Promoters" },
+  { field: "FIIs" },
+  { field: "DIIs" },
+  { field: "Sales_SEP_2021", headerName: "Sales SEP 2021" },
+  { field: "Sales_Jun2022", headerName: "Sales Jun 2022" },
+  { field: "Sales_Sep2022", headerName: "Sales Sep 2022" },
+  { field: "Sales_Dec2022", headerName: "Sales Dec 2022" },
+  { field: "Sales_Mar2023", headerName: "Sales Mar 2023" },
+  { field: "Sales_Jun2023", headerName: "Sales Jun 2023" },
+  { field: "Sales_Sep2023", headerName: "Sales Sep 2023" },
+  { field: "Sales_Dec2023", headerName: "Sales Dec 2023" },
+  { field: "Expense_SEP_2021", headerName: "Expense SEP 2021" },
+  { field: "Expense_Jun2022", headerName: "Expense Jun 2022" },
+  { field: "Expense_Sep2022", headerName: "Expense Sep 2022" },
+  { field: "Expense_Dec2022", headerName: "Expense Dec 2022" },
+  { field: "Expense_Mar2023", headerName: "Expense Mar 2023" },
+  { field: "Expense_Jun2023", headerName: "Expense Jun 2023" },
+  { field: "Expense_Sep2023", headerName: "Expense Sep 2023" },
+  { field: "Expense_Dec2023", headerName: "Expense Dec 2023" },
+  { field: "Operating_Profit_Sep2021", headerName: "Operating Profit Sep 2021" },
+  { field: "Operating_Profit_Jun2022", headerName: "Operating Profit Jun 2022" },
+  { field: "Operating_Profit_Sep2022", headerName: "Operating Profit Sep 2022" },
+  { field: "Operating_Profit_Dec2022", headerName: "Operating Profit Dec 2022" },
+  { field: "Operating_Profit_Mar2023", headerName: "Operating Profit Mar 2023" },
+  { field: "Operating_Profit_Jun2023", headerName: "Operating Profit Jun 2023" },
+  { field: "Operating_Profit_Sep2023", headerName: "Operating Profit Sep 2023" },
+  { field: "Operating_Profit_Dec2023", headerName: "Operating Profit Dec 2023" },
+  { field: "OPM_Sep2021", headerName: "OPM% Sep 2021" },
+  { field: "OPM_Jun2022", headerName: "OPM% Jun 2022" },
+  { field: "OPM_Sep2022", headerName: "OPM% Sep 2022" },
+  { field: "OPM_Dec2022", headerName: "OPM% Dec 2022" },
+  { field: "OPM_Mar2023", headerName: "OPM% Mar 2023" },
+  { field: "OPM_Jun2023", headerName: "OPM% Jun 2023" },
+  { field: "OPM_Sep2023", headerName: "OPM% Sep 2023" },
+  { field: "OPM_Dec2023", headerName: "OPM% Dec 2023" },
+  { field: "Profit_before_tax_Sep2021", headerName: "Profit before tax Sep 2021" },
+  { field: "Profit_before_tax_Jun2022", headerName: "Profit before tax Jun 2022" },
+  { field: "Profit_before_tax_Sep2022", headerName: "Profit before tax Sep 2022" },
+  { field: "Profit_before_tax_Dec2022", headerName: "Profit before tax Dec 2022" },
+  { field: "Profit_before_tax_Mar2023", headerName: "Profit before tax Mar 2023" },
+  { field: "Profit_before_tax_Jun2023", headerName: "Profit before tax Jun 2023" },
+  { field: "Profit_before_tax_Sep2023", headerName: "Profit before tax Sep 2023" },
+  { field: "Profit_before_tax_Dec2023", headerName: "Profit before tax Dec 2023" },
+  { field: "Net_Profit_Sep2021", headerName: "Net Profit Sep 2021" },
+  { field: "Net_Profit_Jun2022", headerName: "Net Profit Jun 2022" },
+  { field: "Net_Profit_Sep2022", headerName: "Net Profit Sep 2022" },
+  { field: "Net_Profit_Dec2022", headerName: "Net Profit Dec 2022" },
+  { field: "Net_Profit_Mar2023", headerName: "Net Profit Mar 2023" },
+  { field: "Net_Profit_Jun2023", headerName: "Net Profit Jun 2023" },
+  { field: "Net_Profit_Sep2023", headerName: "Net Profit Sep 2023" },
+  { field: "Net_Profit_Dec2023", headerName: "Net Profit Dec 2023" },
+  { field: "EPS_in_Rs_Sep2021", headerName: "EPS in Rs. Sep 2021" },
+  { field: "EPS_in_Rs_Jun2022", headerName: "EPS in Rs. Jun 2022" },
+  { field: "EPS_in_Rs_Sep2022", headerName: "EPS in Rs. Sep 2022" },
+  { field: "EPS_in_Rs_Dec2022", headerName: "EPS in Rs. Dec 2022" },
+  { field: "EPS_in_Rs_Mar2023", headerName: "EPS in Rs. Mar 2023" },
+  { field: "EPS_in
+
+_Rs_Jun2023", headerName: "EPS in Rs. Jun 2023" },
+  { field: "EPS_in_Rs_Sep2023", headerName: "EPS in Rs. Sep 2023" },
+  { field: "EPS_in_Rs_Dec2023", headerName: "EPS in Rs. Dec 2023" },
+]);
+```
+
+## Contributing
+
+If you have suggestions for improving this project, please feel free to submit an issue or a pull request.
+
+## License
+
+This project is licensed under the MIT License.
+```
+
+This `README.md` file provides a comprehensive overview of the project, including instructions on how to set up, run, and use the application. It also covers the project structure, API endpoints, and usage details. Feel free to customize this further based on your specific requirements.
