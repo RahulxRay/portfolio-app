@@ -31,20 +31,11 @@ cd portfolio-app
 npm install
 ```
 
-### Set Up Environment Variables
-
-Create a `.env` file in the root directory and add your MongoDB URI:
-
-```
-MONGODB_URI=mongodb+srv://Ray:<password>@analysis.5ti03o2.mongodb.net/?retryWrites=true&w=majority&appName=analysis
-```
-
-Replace `<password>` with your actual MongoDB password.
 
 ### Run the Node.js Server
 
 ```sh
-npm run server
+node src/server.js
 ```
 
 ### Run the React Development Server
